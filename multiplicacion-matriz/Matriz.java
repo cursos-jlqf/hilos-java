@@ -67,7 +67,7 @@ public class Matriz {
      * 
      * @param runnables Arreglo de tareas que realizan la multiplicación
      */
-    public void multiplicar(Runnable[] runnables) {
+    public void ejecutar(Runnable[] runnables) {
         Thread[] threads = new Thread[runnables.length];
 
         for (int i = 0; i < runnables.length; i++) {
@@ -158,7 +158,7 @@ public class Matriz {
         }
 
         tinicio = System.currentTimeMillis();
-        matriz.multiplicar(tareas);
+        matriz.ejecutar(tareas);
         tfin = System.currentTimeMillis();
         System.out.println("\nTiempo Paralelo: " + (tfin - tinicio) + " ms, Matriz " + c.length + "x" + c[0].length);
     }
