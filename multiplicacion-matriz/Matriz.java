@@ -63,7 +63,7 @@ public class Matriz {
 
 
     /**
-     * Multiplica matrices utilizando múltiples hilos.
+     * Ejecuta múltiples hilos.
      * 
      * @param runnables Arreglo de tareas que realizan la multiplicación
      */
