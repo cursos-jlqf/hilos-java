@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * La clase Matriz proporciona métodos para inicializar, sumar y multiplicar matrices.
+ * La clase Matriz proporciona métodos para inicializar multiplicar matrices.
  * También permite la multiplicación de matrices utilizando múltiples hilos para 
  * mejorar el rendimiento en matrices grandes.
  */
@@ -60,15 +60,7 @@ public class Matriz {
             System.out.println(Arrays.toString(m[i]));
     }
 
-    /**
-     * Realiza la suma de las matrices A y B, almacenando el resultado en la matriz C.
-     */
-    public void sumar() {
-        int i, j;
-        for (i = 0; i < c.length; i++)
-            for (j = 0; j < c[0].length; j++)
-                c[i][j] = a[i][j] + b[i][j];
-    }
+
 
     /**
      * Multiplica matrices utilizando múltiples hilos.
