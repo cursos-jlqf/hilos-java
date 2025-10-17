@@ -44,7 +44,7 @@ public class Matriz {
         int i, j;
         for (i = 0; i < m.length; i++) {
             for (j = 0; j < m[0].length; j++) {
-                m[i][j] = n; // Se puede modificar para inicializar con valores aleatorios
+                m[i][j] = azar.nextDouble(); // Se puede modificar para inicializar con valores aleatorios
             }
         }
     }
@@ -102,6 +102,37 @@ public class Matriz {
             }
         }
     }
+    /**
+     * Realiza la multiplicación parcial de matrices utilizando un hilo específico.
+     * 
+     * @param id Identificador del hilo
+     */
+    public void multiplicar(int id, int bq, int r) {
+        int i, j, k,extra;
+        int inicio=id*bq;
+        int fin=inicio+bq;
+        for (i = inicio; i < fin; i++) {
+            for (j = 0; j < c[0].length; j++) {
+                c[i][j] = 0; // Inicializa el valor en la matriz de resultado
+                for (k = 0; k < a[0].length; k++) {
+                    c[i][j] += a[i][k] * b[k][j];
+                }
+            }
+        }
+        if(id<r){
+            extra=(c[0].length-1)-id;
+            for (j = 0; j < c[0].length; j++) {
+                c[extra][j] = 0; // Inicializa el valor en la matriz de resultado
+                for (k = 0; k < a[0].length; k++) {
+                    c[extra][j] += a[extra][k] * b[k][j];
+                }
+            }        
+        
+        
+        }
+        
+        
+    }
 
     /**
      * Realiza la multiplicación de las matrices A y B de manera secuencial,
@@ -150,7 +181,7 @@ public class Matriz {
         matriz.multiplicar();
         tfin = System.currentTimeMillis();
         System.out.println("\nTiempo Secuencial: " + (tfin - tinicio) + " ms, Matriz " + c.length + "x" + c[0].length);
-
+        matriz.imprimir(c);
         // Preparar y ejecutar la multiplicación paralela
         for (int i = 0; i < HILOS; i++) {
             final int id = i;
@@ -161,5 +192,20 @@ public class Matriz {
         matriz.ejecutar(tareas);
         tfin = System.currentTimeMillis();
         System.out.println("\nTiempo Paralelo: " + (tfin - tinicio) + " ms, Matriz " + c.length + "x" + c[0].length);
+        
+        // Preparar y ejecutar la multiplicación paralela
+        for (int i = 0; i < HILOS; i++) {
+            final int id = i;
+            final int bq=N/HILOS;
+            final int r=N%HILOS;
+            tareas[i] = () -> matriz.multiplicar(id,bq,r);
+        }
+
+        tinicio = System.currentTimeMillis();
+        matriz.ejecutar(tareas);
+        tfin = System.currentTimeMillis();
+        System.out.println("\nTiempo Paralelo: " + (tfin - tinicio) + " ms, Matriz " + c.length + "x" + c[0].length);        
+        matriz.imprimir(c);
+        
     }
 }
